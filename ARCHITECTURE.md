@@ -1,0 +1,116 @@
+# Agentic Wallet Architecture Diagram
+
+## Component Interaction Flow
+
+```
+User/Admin
+    │
+    ▼
+┌─────────────────────────────────────┐
+│         CLI / Interface             │
+│  (Interactive command-line tool)    │
+└─────────────┬───────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────┐
+│    Multi-Agent Orchestrator         │
+│  • Agent lifecycle management       │
+│  • Resource allocation              │
+│  • Cross-agent communication        │
+└─────────────┬───────────────────────┘
+              │
+      ┌───────┴───────┐
+      │               │
+      ▼               ▼
+┌──────────┐   ┌──────────┐
+│ Agent 1  │   │ Agent 2  │
+│(Trading) │   │(Trading) │
+└────┬─────┘   └────┬─────┘
+     │              │
+     ▼              ▼
+┌──────────┐   ┌──────────┐
+│ Wallet 1 │   │ Wallet 2 │
+│(Encrypted│   │(Encrypted│
+│  Key)    │   │  Key)    │
+└────┬─────┘   └────┬─────┘
+     │              │
+     └──────┬───────┘
+            │
+            ▼
+┌─────────────────────────────────────┐
+│        Policy Engine                │
+│  • Amount limits                    │
+│  • Token whitelist                  │
+│  • Rate limiting                    │
+│  • Time windows                     │
+│  • Risk scoring                     │
+└─────────────┬───────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────┐
+│      Solana Blockchain              │
+│  • Transaction signing              │
+│  • Account management               │
+│  • Program interactions             │
+└─────────────────────────────────────┘
+```
+
+## Transaction Flow
+
+```
+┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
+│  Agent  │──▶│ Strategy│──▶│ Decision│──▶│ Policy  │──▶│  Wallet │
+│  Logic  │   │   Eval  │   │   Make  │   │  Check  │   │  Unlock │
+└─────────┘   └─────────┘   └─────────┘   └─────────┘   └────┬────┘
+                                                             │
+┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐       │
+│ Confirm │◀──│  Send   │◀──│  Sign   │◀──│  Build  │◀──────┘
+│   TX    │   │   RPC   │   │   TX    │   │   TX    │
+└─────────┘   └─────────┘   └─────────┘   └─────────┘
+```
+
+## Security Layers
+
+```
+┌─────────────────────────────────────┐
+│  Layer 5: Application Security      │
+│  • Input validation                 │
+│  • Error handling                   │
+│  • Audit logging                    │
+├─────────────────────────────────────┤
+│  Layer 4: Policy Enforcement        │
+│  • Transaction rules                │
+│  • Risk scoring                     │
+│  • Rate limiting                    │
+├─────────────────────────────────────┤
+│  Layer 3: Wallet Security           │
+│  • Encryption (AES-256)             │
+│  • Key derivation (PBKDF2)          │
+│  • Memory management                │
+├─────────────────────────────────────┤
+│  Layer 2: Network Security          │
+│  • TLS/SSL                          │
+│  • RPC authentication               │
+│  • Request signing                  │
+├─────────────────────────────────────┤
+│  Layer 1: Infrastructure            │
+│  • Secure enclaves (optional)       │
+│  • Access controls                  │
+│  • Monitoring                       │
+└─────────────────────────────────────┘
+```
+
+## Data Flow
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Data Types                           │
+├─────────────────────────────────────────────────────────────┤
+│  Encrypted Secrets          Public Info          Events     │
+│  ─────────────────          ───────────          ──────     │
+│  • Private keys             • Public keys        • TX sigs  │
+│  • Seed phrases             • Balances           • Errors   │
+│  • Passwords                • Pool states        • Decisions│
+│                             • Price data         • Updates  │
+└─────────────────────────────────────────────────────────────┘
+```
